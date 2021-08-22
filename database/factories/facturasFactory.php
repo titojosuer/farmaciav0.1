@@ -22,7 +22,7 @@ class facturasFactory extends Factory
     public function definition()
     {
         return [
-            'subtotal' => $this->faker->word,
+        'subtotal' => $this->faker->word,
         'isv' => $this->faker->word,
         'total' => $this->faker->word,
         'fecha' => $this->faker->word,

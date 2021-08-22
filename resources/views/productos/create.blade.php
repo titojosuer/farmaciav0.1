@@ -18,7 +18,7 @@
                                 <strong>Create Productos</strong>
                             </div>
                             <div class="card-body">
-                                {!! Form::open(['route' => 'productos.store']) !!}
+                                {!! Form::open(['route' => 'productos.store','files'=>true]) !!}
 
                                    @include('productos.fields')
 
@@ -92,3 +92,11 @@
   </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" integrity="sha512-In/+MILhf6UMDJU4ZhDL0R0fEpsp4D3Le23m6+ujDWXwl3whwpucJG1PEmI3B07nyJx+875ccs+yX2CqQJUxUw==" crossorigin="anonymous" />
+<script>
+  $('.dropify').dropify();
+</script>
+@endpush

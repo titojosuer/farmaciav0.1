@@ -26,7 +26,11 @@ Route::resource('clientes', App\Http\Controllers\clientesController::class);
 
 Route::resource('productos', App\Http\Controllers\productosController::class);
 
+Route::resource('ventas', App\Http\Controllers\VentaController::class);
+
 Route::resource('proveedores', App\Http\Controllers\proveedoresController::class);
+
+Route::resource('categorias', App\Http\Controllers\CategoriaController::class);
 
 Route::resource('tipoUsuarios', App\Http\Controllers\tipo_usuariosController::class);
 

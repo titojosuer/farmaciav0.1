@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categoria;
+use App\Models\proveedores;
+use App\Models\productos;
 use App\Http\Requests\CreateproductosRequest;
 use App\Http\Requests\UpdateproductosRequest;
 use App\Repositories\productosRepository;
@@ -42,7 +45,9 @@ class productosController extends AppBaseController
      */
     public function create()
     {
-        return view('productos.create');
+       $categorias = Categoria::get();
+       $proveedores = proveedores::get();
+        return view('productos.create', compact('categorias','proveedores'));
     }
 
     /**
@@ -54,11 +59,16 @@ class productosController extends AppBaseController
      */
     public function store(CreateproductosRequest $request)
     {
-        $input = $request->all();
+        if($request->hasFile('image')){
+          $file = $request->file('image');
+          $image_name = time().'_'.$file->getClientOriginalName();
+          $file->move(public_path("/image"),$image_name);
+        }
 
-        $productos = $this->productosRepository->create($input);
+        $producto = productos::create($request->all() +
+        ['imagen'=>$image_name,
+      ]);
 
-        Flash::success('Productos saved successfully.');
 
         return redirect(route('productos.index'));
     }
@@ -92,15 +102,10 @@ class productosController extends AppBaseController
      */
     public function edit($id)
     {
-        $productos = $this->productosRepository->find($id);
-
-        if (empty($productos)) {
-            Flash::error('Productos not found');
-
-            return redirect(route('productos.index'));
-        }
-
-        return view('productos.edit')->with('productos', $productos);
+      $productos = $this->productosRepository->find($id);
+      $categorias = Categoria::get();
+      $proveedores = proveedores::get();
+        return view('productos.edit',compact('productos','categorias','proveedores'));
     }
 
     /**
@@ -111,9 +116,9 @@ class productosController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateproductosRequest $request)
+    public function update(UpdateproductosRequest $request, $id)
     {
-        $productos = $this->productosRepository->find($id);
+      $productos = $this->productosRepository->find($id);
 
         if (empty($productos)) {
             Flash::error('Productos not found');
@@ -121,7 +126,18 @@ class productosController extends AppBaseController
             return redirect(route('productos.index'));
         }
 
-        $productos = $this->productosRepository->update($request->all(), $id);
+        if($request->hasFile('image')){
+          $file = $request->file('image');
+          $image_name = time().'_'.$file->getClientOriginalName();
+          $file->move(public_path("/image"),$image_name);
+        }
+
+      //   $producto = productos::create($request->all() +
+      //   ['imagen'=>$image_name,
+      // ]);
+      //
+        $productos = $this->productosRepository->update($request->all()+
+        ['imagen'=>$image_name],$id );
 
         Flash::success('Productos updated successfully.');
 

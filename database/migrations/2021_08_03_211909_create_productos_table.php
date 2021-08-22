@@ -15,15 +15,17 @@ class CreateProductosTable extends Migration
     public function up()
     {
         Schema::create('productos', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('nombre', 45);
-            $table->string('categoria',45);
-            $table->text('descripcion');
-            $table->string('proveedor', 45);
-            $table->string('cantidad', 25);
-            $table->string('precio', 25);
-            $table->string('estado', 25);
-            $table->string('fecha_expiracion', 25);
+            $table->id();
+            $table->string('codigo')->nullable();
+            $table->string('nombre');
+            $table->integer('stock')->default(0);
+            $table->string('imagen');
+            $table->decimal('precio',12,2);
+            $table->enum('estado',['ACTIVO','DESACTIVADO'])->default('ACTIVO');
+            $table->unsignedBigInteger('categoria_id');
+            $table->foreign('categoria_id')->references('id')->on('categorias');
+            $table->unsignedBigInteger('proveedor_id');
+            $table->foreign('proveedor_id')->references('id')->on('proveedores');
             $table->timestamps();
             $table->softDeletes();
         });

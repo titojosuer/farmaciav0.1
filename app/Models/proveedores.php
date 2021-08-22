@@ -23,7 +23,7 @@ class proveedores extends Model
     use HasFactory;
 
     public $table = 'proveedores';
-    
+
 
     protected $dates = ['deleted_at'];
 
@@ -60,6 +60,9 @@ class proveedores extends Model
         'telefono' => 'required',
         'email' => 'email'
     ];
-
     
+    public function productos(){
+      return $this->hasMany(productos::class);
+    }
+
 }

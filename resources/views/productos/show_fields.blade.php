@@ -1,3 +1,14 @@
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="border-bottom text-center pb-4">
+      <img src="{{asset('image/'.$productos->imagen)}}" alt="profile"
+      class="img-lg rounded-circle mb-3"/>
+  </div>
+</div>
+</div>
+
+
 <!-- Nombre Field -->
 <div class="form-group">
     {!! Form::label('nombre', 'Nombre:') !!}
@@ -6,26 +17,15 @@
 
 <!-- Categoria Field -->
 <div class="form-group">
-    {!! Form::label('categoria', 'Categoria:') !!}
-    <p>{{ $productos->categoria }}</p>
+  <label class="form-control-label" for="nombre">Categoria</label>
+  <p><a href="{{route('categorias.show', $productos->categoria)}}">{{$productos->categoria->nombre}}</a></p>
 </div>
 
-<!-- Descripcion Field -->
-<div class="form-group">
-    {!! Form::label('descripcion', 'Descripcion:') !!}
-    <p>{{ $productos->descripcion }}</p>
-</div>
 
 <!-- Proveedor Field -->
 <div class="form-group">
-    {!! Form::label('proveedor', 'Proveedor:') !!}
-    <p>{{ $productos->proveedor }}</p>
-</div>
-
-<!-- Cantidad Field -->
-<div class="form-group">
-    {!! Form::label('cantidad', 'Cantidad:') !!}
-    <p>{{ $productos->cantidad }}</p>
+  <label class="form-control-label" for="nombre">Proveedor</label>
+  <p><a href="{{route('proveedores.show', $productos->proveedor)}}">{{$productos->proveedor->nombre}}</a></p>
 </div>
 
 <!-- Precio Field -->
@@ -39,22 +39,3 @@
     {!! Form::label('estado', 'Estado:') !!}
     <p>{{ $productos->estado }}</p>
 </div>
-
-<!-- Fecha Expiracion Field -->
-<div class="form-group">
-    {!! Form::label('fecha_expiracion', 'Fecha Expiracion:') !!}
-    <p>{{ $productos->fecha_expiracion }}</p>
-</div>
-
-<!-- Created At Field -->
-<div class="form-group">
-    {!! Form::label('created_at', 'Created At:') !!}
-    <p>{{ $productos->created_at }}</p>
-</div>
-
-<!-- Updated At Field -->
-<div class="form-group">
-    {!! Form::label('updated_at', 'Updated At:') !!}
-    <p>{{ $productos->updated_at }}</p>
-</div>
-

@@ -1,7 +1,7 @@
 <div class="table-responsive-sm">
     <table class="table table-striped" id="pedidos-table">
       <thead>
-        <!-- <th>Id</th> -->
+        <th>Id</th>
         <th>Fecha</th>
         <th>Proveedor</th>
         <th>Tipo Comprobante</th>
@@ -12,18 +12,19 @@
       </thead>
              @foreach ($pedidos as $ped)
       <tr>
-        <!-- <td>{{ $ped->id_pedido}}</td> -->
-        <td>{{ $ped->fecha_hora}}</td>
+        <td>{{ $ped->id}}</td>
+        <td>{{ $ped->fecha}}</td>
         <td>{{ $ped->nombre}}</td>
         <td>{{ $ped->tipo_comprobante}}</td>
         <td>{{ $ped->impuesto}}</td>
         <td>{{ $ped->total}}</td>
         <td>{{ $ped->estado}}</td>
-        <td>
-            {!! Form::open(['url' => ['compras.pedidos.destroy', $ped->id_pedido], 'method' => 'delete']) !!}
+        <td style="width:100px;">
+            {!! Form::open(['url' => ['pedidos.destroy', $ped->id], 'method' => 'delete']) !!}
             <div class='btn-group'>
-                <a href="{{ url('compras.pedidos.show', [$ped->id_pedido]) }}" class='btn btn-ghost-success'><i class="fa fa-eye"></i></a>
-                <a href="{{ url('compras.pedidos.id', [$ped->id_pedido]) }}" class='btn btn-ghost-info'><i class="fa fa-edit"></i></a>
+                <a href="{{ url('compras.pedidos.id', [$ped->id]) }}" class='btn btn-ghost-success'><i class="fa fa-file-pdf-o"></i></a>
+                <a href="{{ route('pedidos.show',[$ped->id]) }}" class='btn btn-ghost-success'><i class="fa fa-eye"></i></a>
+                <a href="{{ url('compras.pedidos.id', [$ped->id]) }}" class='btn btn-ghost-info'><i class="fa fa-edit"></i></a>
                 {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-ghost-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
             </div>
             {!! Form::close() !!}
@@ -32,4 +33,7 @@
       @endforeach
         </tbody>
     </table>
+    <div class="d-flex justify-content-end">
+      {!!$pedidos->links()!!}
+    </div>
 </div>

@@ -4,6 +4,12 @@
         <span>Clientes</span>
     </a>
 </li>
+<li class="nav-item {{ Request::is('categorias*') ? 'active' : '' }}">
+  <a class="nav-link" href="{{ route('categorias.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Categorias</span>
+    </a>
+</li>
 <li class="nav-item {{ Request::is('productos*') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('productos.index') }}">
         <i class="nav-icon icon-cursor"></i>
@@ -20,6 +26,12 @@
     <a class="nav-link" href="{{ route('tipoUsuarios.index') }}">
         <i class="nav-icon icon-cursor"></i>
         <span>Tipo Usuarios</span>
+    </a>
+</li>
+<li class="nav-item {{ Request::is('Ventas*') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('ventas.index') }}">
+        <i class="nav-icon icon-cursor"></i>
+        <span>Ventas</span>
     </a>
 </li>
 <li class="nav-item {{ Request::is('compras/pedidos') ? 'active' : '' }}">

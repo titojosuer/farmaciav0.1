@@ -2,28 +2,22 @@
     <table class="table table-striped" id="productos-table">
         <thead>
             <tr>
-                <th>Nombre</th>
-        <th>Categoria</th>
-        <th>Descripcion</th>
-        <th>Proveedor</th>
-        <th>Cantidad</th>
-        <th>Precio</th>
+        <th>ID</th>
+         <th>Nombre</th>
+        <th>Stock</th>
         <th>Estado</th>
-        <th>Fecha Expiracion</th>
-                <th colspan="3">Action</th>
+        <th>Categoria</th>
+        <th colspan="3">Acciones</th>
             </tr>
         </thead>
         <tbody>
         @foreach($productos as $productos)
             <tr>
+              <td>{{ $productos->id }}</td>
                 <td>{{ $productos->nombre }}</td>
-            <td>{{ $productos->categoria }}</td>
-            <td>{{ $productos->descripcion }}</td>
-            <td>{{ $productos->proveedor }}</td>
-            <td>{{ $productos->cantidad }}</td>
-            <td>{{ $productos->precio }}</td>
-            <td>{{ $productos->estado }}</td>
-            <td>{{ $productos->fecha_expiracion }}</td>
+                  <td>{{ $productos->stock }}</td>
+                    <td>{{ $productos->estado }}</td>
+            <td>{{ $productos->categoria->nombre }}</td>
                 <td>
                     {!! Form::open(['route' => ['productos.destroy', $productos->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

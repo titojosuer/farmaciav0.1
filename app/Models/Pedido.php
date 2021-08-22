@@ -9,24 +9,29 @@ class Pedido extends Model
 {
   protected $table='pedidos';
 
-  protected $primaryKey='id_pedido';
+  protected $primaryKey='id';
 
   public $timestamps=false;
 
 
   protected $fillable =[
-    'id_pedido',
     'id_proveedor',
     'tipo_comprobante',
     'serie_comprobante',
     'num_comprobante',
-    'fecha_hora',
     'impuesto',
+    'total',
+    'fecha',
     'estado',
 
   ];
 
-  protected $guarded =[
+  public function pedidoDetalles(){
+    return $this->hasMany(DetallePedido::class);
+  }
 
-  ];
+  public function proveedor(){
+    return $this->belongsTo(proveedores::class);
+  }
+
 }

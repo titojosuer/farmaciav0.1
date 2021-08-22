@@ -27,37 +27,21 @@ class productos extends Model
     use HasFactory;
 
     public $table = 'productos';
-    
+
 
     protected $dates = ['deleted_at'];
 
 
 
     public $fillable = [
+        'codigo',
         'nombre',
-        'categoria',
-        'descripcion',
-        'proveedor',
-        'cantidad',
+        'stock',
+        'imagen',
         'precio',
         'estado',
-        'fecha_expiracion'
-    ];
-
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'id' => 'integer',
-        'nombre' => 'string',
-        'descripcion' => 'string',
-        'proveedor' => 'string',
-        'cantidad' => 'string',
-        'precio' => 'string',
-        'estado' => 'string',
-        'fecha_expiracion' => 'string'
+        'categoria_id',
+        'proveedor_id'
     ];
 
     /**
@@ -66,15 +50,29 @@ class productos extends Model
      * @var array
      */
     public static $rules = [
-        'nombre' => 'required',
-        'categoria' => 'required',
-        'descripcion' => 'required',
-        'proveedor' => 'required',
-        'cantidad' => 'required',
-        'precio' => 'required',
-        'estado' => 'required',
-        'fecha_expiracion' => 'required'
-    ];
+        'nombre' => 'string|required|max:255',
+        'precio' => 'required|',
+      ];
 
-    
+    public function messages()
+     {
+       return [
+         'nombre.required'=>'Este campo es requerido.',
+         'nombre.string'=>'El valor no es correcto.',
+         'nombre.max'=>'Solo se permite 255 caracteres.',
+
+         'precio'=>'El precio es requerido',
+
+
+      ];
+
+    }
+    public function proveedor(){
+      return $this->belongsTo(proveedores::class);
+    }
+
+    public function categoria(){
+      return $this->belongsTo(Categoria::class);
+    }
+
 }
