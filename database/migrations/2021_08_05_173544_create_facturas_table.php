@@ -15,7 +15,7 @@ class CreateFacturasTable extends Migration
     public function up()
     {
         Schema::create('facturas', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('subtotal', 25);
             $table->string('isv', 25);
             $table->string('total', 25);

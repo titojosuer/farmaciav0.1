@@ -23,7 +23,7 @@ class VentaController extends Controller
    $clientes = clientes::get();
    $productos = DB::table('productos as prod')
    ->select('prod.nombre','prod.id','prod.precio','prod.stock')
-   ->where('prod.estado','=','1')
+   ->where('prod.estado','=','ACTIVO')
    ->get();
     return view('ventas.create',compact('clientes','productos'));
   }
