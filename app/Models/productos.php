@@ -39,9 +39,12 @@ class productos extends Model
         'stock',
         'imagen',
         'precio',
+        'impuesto',
+        'descuento',
         'estado',
         'categoria_id',
-        'proveedor_id'
+        'proveedor_id',
+        'laboratorio_id'
     ];
 
     /**
@@ -52,27 +55,24 @@ class productos extends Model
     public static $rules = [
         'nombre' => 'string|required|max:255',
         'precio' => 'required|',
+        'impuesto' => 'required|',
+        'descuento' => 'required|',
+        'stock' => 'required|',
+        'proveedor_id' => 'required|integer',
+        'categoria_id' => 'required|integer',
+        'laboratorio_id' => 'required|integer',
       ];
 
-    public function messages()
-     {
-       return [
-         'nombre.required'=>'Este campo es requerido.',
-         'nombre.string'=>'El valor no es correcto.',
-         'nombre.max'=>'Solo se permite 255 caracteres.',
-
-         'precio'=>'El precio es requerido',
-
-
-      ];
-
-    }
     public function proveedor(){
       return $this->belongsTo(proveedores::class);
     }
 
     public function categoria(){
       return $this->belongsTo(Categoria::class);
+    }
+
+    public function laboratorio(){
+      return $this->belongsTo(Laboratorio::class);
     }
 
 }

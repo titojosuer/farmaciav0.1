@@ -93,7 +93,6 @@ class clientesController extends AppBaseController
     public function edit($id)
     {
         $clientes = $this->clientesRepository->find($id);
-
         if (empty($clientes)) {
             Flash::error('Clientes not found');
 

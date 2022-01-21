@@ -20,7 +20,7 @@ class PedidoController extends Controller
   public function index()
   {
     $pedidos = Pedido::paginate(5);
-    return view('compras.pedidos.index', compact('pedidos'));
+    return view('pedidos.index', compact('pedidos'));
   }
 
   public function create()
@@ -28,14 +28,14 @@ class PedidoController extends Controller
     $proveedores = DB::table('proveedores')->get();
     $productos = DB::table('productos as prod')
     ->select('prod.nombre','prod.id')
-    ->where('prod.estado','=','1')
+    ->where('prod.estado','=','ACTIVO')
     ->get();
-    return view('compras.pedidos.create',compact('proveedores','productos'));
+    return view('pedidos.create',compact('proveedores','productos'));
   }
 
   public function store(PedidosStoreRequest $request)
   {
-
+      // dd($request);
       $pedido = Pedido::create($request->all());
       foreach ($request->id_producto as $key=>$producto) {
         $results[] = array("id_producto"=>$request->id_producto[$key],
@@ -45,14 +45,13 @@ class PedidoController extends Controller
       $pedido->pedidoDetalles()->createMany($results);
 
 
-    return Redirect::to('compras/pedidos');
+    return Redirect::to('pedidos');
   }
 
-  public function show($id)
+  public function show(Pedido $pedido)
   {
-    $pedidos=Pedido::findorFail($id);
     $subtotal=0;
-    $pedidoDetalles = $pedidos->pedidoDetalles;
+    $pedidoDetalles = $pedido->pedidoDetalles;
     // $nombreProducto = DB::table('productos as prod')
     // ->select('prod.nombre')
     // ->join ('detalle_pedido as d','d.id_producto','=','prod.id')
@@ -61,14 +60,13 @@ class PedidoController extends Controller
     foreach ($pedidoDetalles as $pedidoDetalle) {
       $subtotal += $pedidoDetalle->cantidad * $pedidoDetalle->precio;
     }
-    return view('compras.pedidos.show',compact('pedidos','pedidoDetalles','subtotal'));
+    return view('pedidos.show',compact('pedido','pedidoDetalles','subtotal'));
   }
 
   public function edit(Pedido $pedidos)
   {
       $proveedores = Proveedor::get();
-
-      return view('compras.pedidos.edit',compact('pedidos'));
+      return view('pedidos.edit',compact('pedidos'));
   }
 
 
@@ -76,7 +74,7 @@ class PedidoController extends Controller
   {
 
     $pedido->update($request->all());
-      return redirect(route('compras.pedidos.index'));
+      return redirect(route('pedidos.index'));
   }
 
   public function destroy($id)
@@ -85,6 +83,22 @@ class PedidoController extends Controller
   $pedido->Estado='0';
   $pedido->update();
 
-  return Redirect::to('compras/pedidos');
+  return Redirect::to('pedidos');
   }
+
+
+    public function cambiar_estado($id)
+    {
+      $pedidos=Pedido::findorFail($id);
+      $pedidos=Pedido::findorFail($id);
+      // dd($pedidos);
+      if($pedidos->estado=='EN STOCK'){
+          $pedidos->update(['estado'=>'CANCELADO']);
+          return redirect()->back();
+      }else{
+          $pedidos->update(['estado'=>'EN STOCK']);
+          return redirect()->back();
+      }
+    }
+
 }

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categoria;
+use App\Models\Laboratorio;
 use App\Models\proveedores;
 use App\Models\productos;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Input;
 use App\Http\Requests\CreateproductosRequest;
 use App\Http\Requests\UpdateproductosRequest;
 use App\Repositories\productosRepository;
@@ -12,6 +15,7 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use DB;
 
 class productosController extends AppBaseController
 {
@@ -21,6 +25,13 @@ class productosController extends AppBaseController
     public function __construct(productosRepository $productosRepo)
     {
         $this->productosRepository = $productosRepo;
+        // $this->middleware('auth');
+        // $this->middleware('can:productos.create')->only(['create','store']);
+        // $this->middleware('can:productos.index')->only(['index']);
+        // $this->middleware('can:productos.edit')->only(['edit','update']);
+        // $this->middleware('can:productos.show')->only(['show']);
+        // $this->middleware('can:productos.destroy')->only(['destroy']);
+
     }
 
     /**
@@ -32,10 +43,9 @@ class productosController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $productos = $this->productosRepository->all();
+      $productos = productos::paginate(10);
+      return view('productos.index', compact('productos'));
 
-        return view('productos.index')
-            ->with('productos', $productos);
     }
 
     /**
@@ -46,8 +56,9 @@ class productosController extends AppBaseController
     public function create()
     {
        $categorias = Categoria::get();
+       $laboratorios = Laboratorio::get();
        $proveedores = proveedores::get();
-        return view('productos.create', compact('categorias','proveedores'));
+        return view('productos.create', compact('categorias','proveedores','laboratorios'));
     }
 
     /**
@@ -63,14 +74,16 @@ class productosController extends AppBaseController
           $file = $request->file('image');
           $image_name = time().'_'.$file->getClientOriginalName();
           $file->move(public_path("/image"),$image_name);
+        } else {
+          $image_name = "Por defecto";
         }
 
         $producto = productos::create($request->all() +
         ['imagen'=>$image_name,
       ]);
 
-
-        return redirect(route('productos.index'));
+      $producto->update(['codigo'=>$producto->id]);
+      return redirect(route('productos.index'));
     }
 
     /**
@@ -89,7 +102,6 @@ class productosController extends AppBaseController
 
             return redirect(route('productos.index'));
         }
-
         return view('productos.show')->with('productos', $productos);
     }
 
@@ -103,9 +115,12 @@ class productosController extends AppBaseController
     public function edit($id)
     {
       $productos = $this->productosRepository->find($id);
+      // dd($productos);
       $categorias = Categoria::get();
+      $laboratorios = Laboratorio::get();
       $proveedores = proveedores::get();
-        return view('productos.edit',compact('productos','categorias','proveedores'));
+      //  dd($categorias);
+      return view('productos.edit',compact('productos','categorias','proveedores','laboratorios'));
     }
 
     /**
@@ -130,8 +145,9 @@ class productosController extends AppBaseController
           $file = $request->file('image');
           $image_name = time().'_'.$file->getClientOriginalName();
           $file->move(public_path("/image"),$image_name);
+        }else{
+          $image_name = "Por defecto";
         }
-
       //   $producto = productos::create($request->all() +
       //   ['imagen'=>$image_name,
       // ]);
@@ -168,5 +184,37 @@ class productosController extends AppBaseController
         Flash::success('Productos deleted successfully.');
 
         return redirect(route('productos.index'));
+    }
+
+    public function cambiar_estado($id)
+    {
+      $productos = $this->productosRepository->find($id);
+      if($productos->estado=='ACTIVO'){
+          $productos->update(['estado'=>'DESACTIVADO']);
+          return redirect()->back();
+      }else{
+          $productos->update(['estado'=>'ACTIVO']);
+          return redirect()->back();
+      }
+    }
+
+    public function delete($id)
+      {
+      $productos = $this->productosRepository->find($id);
+      return view('productos.delete', compact('productos'));
+    }
+
+    public function get_productos_by_barcode(Request $request){
+      if($request->ajax()){
+        $productos = productos::where('codigo',$request->codigo)->firstOrFail();
+        return response()->json($productos);
+      }
+    }
+
+    public function get_productos_by_id(Request $request){
+      if($request->ajax()){
+        $productos = productos::findorFail($request->producto_id);
+        return response()->json($productos);
+      }
     }
 }

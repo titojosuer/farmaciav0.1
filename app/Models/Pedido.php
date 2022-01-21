@@ -15,7 +15,7 @@ class Pedido extends Model
 
 
   protected $fillable =[
-    'id_proveedor',
+    'proveedor_id',
     'tipo_comprobante',
     'serie_comprobante',
     'num_comprobante',
