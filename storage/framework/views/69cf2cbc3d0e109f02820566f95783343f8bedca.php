@@ -7,6 +7,13 @@
 </div>
 
 <div class="form-group col-sm-6">
+    <?php echo Form::label('principio_activo', 'Principio Activo:'); ?>
+
+    <?php echo Form::text('principio_activo', null, ['class' => 'form-control']); ?>
+
+</div>
+
+<div class="form-group col-sm-6">
   <label for="categoria_id">Categoria</label>
   <select class="form-control" name="categoria_id" id="categoria_id">
     <option value="">----Seleccione una Categoria---</option>

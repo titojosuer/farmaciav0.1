@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateclientesRequest;
 use App\Repositories\clientesRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 use Flash;
 use Response;
 
@@ -30,11 +31,36 @@ class clientesController extends AppBaseController
     public function index(Request $request)
     {
         $clientes = $this->clientesRepository->all();
-
-        return view('clientes.index')
-            ->with('clientes', $clientes);
+        
+        if ($request->ajax()) {
+        
+            $model = $this->clientesRepository->all();
+    
+            return DataTables::of($model)
+            ->addIndexColumn()
+            ->addColumn('acciones',function ($row){
+              return $this->getActionColumn($row);
+            })
+            ->rawColumns(['acciones'])
+            ->make(true);
+    
+        }
+            return view('clientes.index');
+        // return view('clientes.index')
+        //     ->with('clientes', $clientes);
     }
 
+    protected function getActionColumn($row): string
+    {
+        $showUrl = route('clientes.show', $row->id);
+        $editUrl = route('clientes.edit', $row->id);
+        $deleteUrl = route('clientes.delete', $row->id);
+        return "<a class='btn btn-ghost-info' data-value='$row->id' href='$showUrl' ><i class='fa fa-eye text-primary'></i></a> 
+                        <a class='btn btn-ghost-success' data-value='$row->id' href='$editUrl'><i class='fa fa-edit text-success'></i></a>
+                        <a data-toggle='modal' id='smallButton' data-target='#smallModal' data-attr='$deleteUrl' title='Eliminar Cliente'
+                        class='btn btn-ghost-secondary'><i class='fa fa-trash text-danger fa-lg'></i>
+                       </a>";
+    }
     /**
      * Show the form for creating a new clientes.
      *
@@ -151,5 +177,11 @@ class clientesController extends AppBaseController
         Flash::success('Clientes deleted successfully.');
 
         return redirect(route('clientes.index'));
+    }
+
+    public function delete($id)
+      {
+      $clientes = $this->clientesRepository->find($id);
+      return view('clientes.delete', compact('clientes'));
     }
 }

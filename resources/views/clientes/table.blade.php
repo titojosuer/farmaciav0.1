@@ -2,35 +2,48 @@
     <table class="table table-striped" id="clientes-table">
         <thead>
             <tr>
-                <th>Nombre</th>
+        <th>Nombre</th>
         <th>Apellido</th>
         <th>Dni</th>
         <th>Direccion</th>
         <th>Telefono</th>
         <th>Email</th>
-                <th colspan="3">Action</th>
+        <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-        @foreach($clientes as $clientes)
-            <tr>
-                <td>{{ $clientes->nombre }}</td>
-            <td>{{ $clientes->apellido }}</td>
-            <td>{{ $clientes->dni }}</td>
-            <td>{{ $clientes->direccion }}</td>
-            <td>{{ $clientes->telefono }}</td>
-            <td>{{ $clientes->email }}</td>
-                <td>
-                    {!! Form::open(['route' => ['clientes.destroy', $clientes->id], 'method' => 'delete']) !!}
-                    <div class='btn-group'>
-                        <a href="{{ route('clientes.show', [$clientes->id]) }}" class='btn btn-ghost-success'><i class="fa fa-eye"></i></a>
-                        <a href="{{ route('clientes.edit', [$clientes->id]) }}" class='btn btn-ghost-info'><i class="fa fa-edit"></i></a>
-                        {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-ghost-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                    </div>
-                    {!! Form::close() !!}
-                </td>
-            </tr>
-        @endforeach
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
         </tbody>
     </table>
 </div>
+
+@push('scripts')
+<script>
+     $('#clientes-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax:
+         { 
+             url: "{{ route('clientes.index') }}",
+             type: 'GET'
+         },
+        columns: [
+            {data: 'nombre', name: 'clientes.nombre',orderable: true,searchable:true},
+            {data: 'apellido', name: 'clientes.apellido',orderable: true,searchable:true},
+            {data: 'dni', name: 'clientes.dni',orderable: false,searchable:true},
+            {data: 'direccion', name: 'clientes.direccion',orderable: false,searchable:true},
+            {data: 'telefono', name: 'clientes.telefono',orderable: false,searchable:true},
+            {data: 'email', name: 'clientes.email',orderable: false,searchable:true},
+            {data: 'acciones', name: 'acciones',orderable: false,searchable:false}
+        ]
+    });
+</script>
+@endpush

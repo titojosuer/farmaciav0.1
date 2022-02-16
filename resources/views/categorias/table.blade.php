@@ -1,16 +1,18 @@
 <div class="table-responsive-sm">
-    <table class="table table-striped" id="clientes-table">
+    <table class="table table-striped" id="categorias-table">
         <thead>
             <tr>
+        <th>ID</th>
         <th>Nombre</th>
         <th>Descripcion</th>
-                <th colspan="3">Action</th>
+                <th colspan="3">Acciones</th>
             </tr>
         </thead>
         <tbody>
         @foreach($categorias as $categoria)
             <tr>
-              <td>{{ $categoria->nombre }}</td>
+            <td>{{ $categoria->id }}</td>
+            <td>{{ $categoria->nombre }}</td>
             <td>{{ $categoria->descripcion }}</td>
                 <td>
                     {!! Form::open(['route' => ['categorias.destroy', $categoria->id], 'method' => 'delete']) !!}

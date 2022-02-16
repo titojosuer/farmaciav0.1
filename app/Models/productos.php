@@ -44,7 +44,8 @@ class productos extends Model
         'estado',
         'categoria_id',
         'proveedor_id',
-        'laboratorio_id'
+        'laboratorio_id',
+        'principio_activo'
     ];
 
     /**
@@ -61,6 +62,7 @@ class productos extends Model
         'proveedor_id' => 'required|integer',
         'categoria_id' => 'required|integer',
         'laboratorio_id' => 'required|integer',
+        'principio_activo'=> 'required|string',
       ];
 
     public function proveedor(){

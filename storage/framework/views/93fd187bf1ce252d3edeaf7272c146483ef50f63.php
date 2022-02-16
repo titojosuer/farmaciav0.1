@@ -26,9 +26,9 @@
                     <?php echo Form::open(['route' => ['users.destroy', $user->id], 'method' => 'delete']); ?>
 
                     <div class='btn-group'>
-                        <a href="<?php echo e(route('users.show', [$user->id])); ?>" class='btn btn-ghost-success'><i class="fa fa-eye"></i></a>
-                        <a href="<?php echo e(route('users.edit', [$user->id])); ?>" class='btn btn-ghost-info'><i class="fa fa-edit"></i></a>
-                        <?php echo Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-ghost-danger', 'onclick' => "return confirm('Are you sure?')"]); ?>
+                        <a href="<?php echo e(route('users.show', [$user->id])); ?>" class='btn btn-ghost-info'><i class="fa fa-eye text-primary"></i></a>
+                        <a href="<?php echo e(route('users.edit', [$user->id])); ?>" class='btn btn-ghost-success'><i class="fa fa-edit text-success"></i></a>
+                        <?php echo Form::button('<i class="fa fa-trash text-danger"></i>', ['type' => 'submit', 'class' => 'btn btn-ghost-danger', 'onclick' => "return confirm('Are you sure?')"]); ?>
 
                     </div>
                     <?php echo Form::close(); ?>

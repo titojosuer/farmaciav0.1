@@ -3,9 +3,9 @@
 @section('content')
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-         <a href="{!! route('proveedores.index') !!}">Proveedores</a>
+         <a href="{!! route('proveedores.index') !!}">PROVEEDORES</a>
       </li>
-      <li class="breadcrumb-item active">Create</li>
+      <li class="breadcrumb-item active">REGISTRAR PROVEEDOR</li>
     </ol>
      <div class="container-fluid">
           <div class="animated fadeIn">
@@ -15,7 +15,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <i class="fa fa-plus-square-o fa-lg"></i>
-                                <strong>Create Proveedores</strong>
+                                <strong>REGISTRAR PROVEEDOR</strong>
                             </div>
                             <div class="card-body">
                                 {!! Form::open(['route' => 'proveedores.store']) !!}

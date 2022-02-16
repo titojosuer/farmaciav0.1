@@ -12,6 +12,7 @@ use App\Http\Requests\CreateproductosRequest;
 use App\Http\Requests\UpdateproductosRequest;
 use App\Repositories\productosRepository;
 use App\Http\Controllers\AppBaseController;
+use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
@@ -41,13 +42,54 @@ class productosController extends AppBaseController
      *
      * @return Response
      */
+
     public function index(Request $request)
     {
-      $productos = productos::paginate(10);
-      return view('productos.index', compact('productos'));
+      if ($request->ajax()) {
+        
+        $model = productos::with('Categoria');
+
+        return DataTables::of($model)
+        ->addColumn('categorias', function (productos $producto) {
+            return $producto->categoria->nombre;
+        })
+        ->addIndexColumn()
+        ->addColumn('acciones',function (productos $producto){
+          return $this->getActionColumn($producto);
+        })
+        ->addColumn('estado',function (productos $producto){
+          return $this->getEstado($producto);
+        })
+        ->rawColumns(['acciones','estado'])
+        ->make(true);
 
     }
+        return view('productos.index');
+  }
 
+  protected function getActionColumn($producto): string
+  {
+      $showUrl = route('productos.show', $producto->id);
+      $editUrl = route('productos.edit', $producto->id);
+      $deleteUrl = route('productos.delete', $producto->id);
+      return "<a class='btn btn-ghost-info' data-value='$producto->id' href='$showUrl' ><i class='fa fa-eye text-primary'></i></a> 
+                      <a class='btn btn-ghost-success' data-value='$producto->id' href='$editUrl'><i class='fa fa-edit text-success'></i></a>
+                      <a data-toggle='modal' id='smallButton' data-target='#smallModal' data-attr='$deleteUrl' title='Eliminar Producto'
+                      class='btn btn-ghost-secondary'><i class='fa fa-trash text-danger fa-lg'></i>
+                     </a>";
+  }
+
+
+  protected function getEstado($producto): string
+  {
+    $estadoUrl = route('cambiar.estado.producto',$producto);
+    if ($producto->estado=='ACTIVO'){
+       $estado1 = "<button class='btn btn-ghost-success'><a class=' btn-ghost-success' href='$estadoUrl'>$producto->estado</a></button>";
+    } else {
+       $estado1 = "<button class='btn btn-ghost-danger'><a class='btn-ghost-danger' href='$estadoUrl'>$producto->estado</a></button>";
+    }
+    return $estado1;
+  }
     /**
      * Show the form for creating a new productos.
      *

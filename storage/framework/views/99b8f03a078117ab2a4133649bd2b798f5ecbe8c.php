@@ -2,35 +2,44 @@
     <table class="table table-striped" id="proveedores-table">
         <thead>
             <tr>
-                <th>Nombre</th>
+         <th>Nombre</th>
         <th>Direccion</th>
         <th>Telefono</th>
         <th>Email</th>
-                <th colspan="3">Acciones</th>
+        <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-        <?php $__currentLoopData = $proveedores; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $proveedores): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <tr>
-                <td><?php echo e($proveedores->nombre); ?></td>
-            <td><?php echo e($proveedores->direccion); ?></td>
-            <td><?php echo e($proveedores->telefono); ?></td>
-            <td><?php echo e($proveedores->email); ?></td>
-                <td>
-                    <?php echo Form::open(['route' => ['proveedores.destroy', $proveedores->id], 'method' => 'delete']); ?>
-
-                    <div class='btn-group'>
-                        <a href="<?php echo e(route('proveedores.show', [$proveedores->id])); ?>" class='btn btn-ghost-success'><i class="fa fa-eye"></i></a>
-                        <a href="<?php echo e(route('proveedores.edit', [$proveedores->id])); ?>" class='btn btn-ghost-info'><i class="fa fa-edit"></i></a>
-                        <?php echo Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-ghost-danger', 'onclick' => "return confirm('Are you sure?')"]); ?>
-
-                    </div>
-                    <?php echo Form::close(); ?>
-
-                </td>
-            </tr>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
         </tbody>
     </table>
 </div>
+
+<?php $__env->startPush('scripts'); ?>
+<script>
+     $('#proveedores-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax:
+         { 
+             url: "<?php echo e(route('proveedores.index')); ?>",
+             type: 'GET'
+         },
+        columns: [
+            {data: 'nombre', name: 'proveedores.nombre',orderable: true,searchable:true},
+            {data: 'direccion', name: 'proveedores.direccion',orderable: true,searchable:true},
+            {data: 'telefono', name: 'proveedores.telefono',orderable: false,searchable:false},
+            {data: 'email', name: 'proveedores.email',orderable: false,searchable:true},
+            {data: 'acciones', name: 'acciones',orderable: false,searchable:false}
+        ]
+    });
+</script>
+<?php $__env->stopPush(); ?>
+
 <?php /**PATH /home/titojosuer/Descargas/far/protected-lowlands-54743/resources/views/proveedores/table.blade.php ENDPATH**/ ?>

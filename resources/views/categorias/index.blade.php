@@ -2,7 +2,7 @@
 
 @section('content')
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">Categorias</li>
+        <li class="breadcrumb-item">CATEGORIAS</li>
     </ol>
     <div class="container-fluid">
         <div class="animated fadeIn">
@@ -12,8 +12,8 @@
                      <div class="card">
                          <div class="card-header">
                              <i class="fa fa-align-justify"></i>
-                             Categorias
-                             <a class="pull-right" href="{{ route('categorias.create') }}"><i class="fa fa-plus-square fa-lg"></i></a>
+                             CATEGORIAS
+                              <a class="pull-right" href="{{ route('categorias.create') }}"><i class="btn btn-primary">AGREGAR CATEGORIA</i></a>
                          </div>
                          <div class="card-body">
                              @include('categorias.table')

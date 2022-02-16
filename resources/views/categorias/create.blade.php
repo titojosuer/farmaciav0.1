@@ -3,9 +3,9 @@
 @section('content')
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-         <a href="{!! route('categorias.index') !!}">Categorias</a>
+         <a href="{!! route('categorias.index') !!}">CATEGORIAS</a>
       </li>
-      <li class="breadcrumb-item active">Create</li>
+      <li class="breadcrumb-item active">NUEVA CATEGORIA</li>
     </ol>
      <div class="container-fluid">
           <div class="animated fadeIn">

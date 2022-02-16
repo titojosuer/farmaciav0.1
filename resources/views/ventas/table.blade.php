@@ -12,13 +12,25 @@
         <td>{{ $venta->id}}</td>
         <td>{{ $venta->fecha}}</td>
         <td>{{ $venta->total}}</td>
-        <td>{{ $venta->estado}}</td>
+        @if($venta->estado=='VALIDA')
+        <td>
+        <a class="btn btn-ghost-success" href="{{route('cambiar.estado.venta', $venta)}}">
+        {{ $venta->estado }}
+        </a>
+        </td>
+        @else
+        <td>
+        <a class= "btn btn-ghost-danger" href="{{route('cambiar.estado.venta', $venta)}}">
+        {{ $venta->estado }}
+        </a>
+        </td>
+        @endif
         <td style="width:100px;">
             {!! Form::open(['url' => ['ventas.destroy', $venta->id], 'method' => 'delete']) !!}
             <div class='btn-group'>
-                <a href="{{ url('ventas.id', [$venta->id]) }}" class='btn btn-ghost-success'><i class="fa fa-file-pdf-o"></i></a>
+                <!-- <a href="{{ url('ventas.id', [$venta->id]) }}" class='btn btn-ghost-success'><i class="fa fa-file-pdf-o"></i></a> -->
                 <a href="{{ route('ventas.show',[$venta->id]) }}" class='btn btn-ghost-success'><i class="fa fa-eye"></i></a>
-                <a href="{{ url('ventas.id', [$venta->id]) }}" class='btn btn-ghost-info'><i class="fa fa-edit"></i></a>
+                <a href="{{ route('print.venta', $venta) }}" class='btn btn-ghost-info'><i class="fa fa-print"></i></a>
                 {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-ghost-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
             </div>
             {!! Form::close() !!}

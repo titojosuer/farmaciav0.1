@@ -2,29 +2,45 @@
   <div class="col-sm-6">
     <div class="form-group">
       <label for="cliente_id">Cliente</label>
-      <select class="form-control" name="cliente_id" id="cliente_id">
+      <select class="js-example-basic-single form-control" name="cliente_id" id="cliente_id">
+        <option value="">---Seleccione un Cliente---</option>
         @foreach ($clientes as $cliente)
         <option value="{{$cliente->id}}">{{$cliente->nombre}}</option>
         @endforeach
       </select>
     </div>
   </div>
+
+  <div class="form-group col-sm-3">
+    <label for="codigo">Codigo de barras</label>
+    <input type="text"  class="form-control" name="codigo" id="codigo"  aria-describedby="helpId">
+  </div>
+
 <div class="col-sm-3">
   <div class="form-group">
     <label for="producto_id">Producto</label>
-    <select class="form-control" name="producto_id" id="producto_id">
+    <select class="js-example-basic-single form-control" name="producto_id" id="producto_id">
+      <option value=0>----Seleccione un Producto---</option>
       @foreach ($productos as $producto)
-      <option value="{{$producto->id}}_{{$producto->precio}}_{{$producto->stock}}">{{$producto->nombre}}</option>
+      <option value="{{$producto->id}}_{{$producto->precio}}_{{$producto->stock}}_{{$producto->impuesto}}_{{$producto->descuento}}">{{$producto->nombre}}</option>
       @endforeach
     </select>
   </div>
 </div>
+
 <div class="col-sm-3">
+{!! Form::date('fecha',
+    old('fecha',
+        Carbon\Carbon::today()->format('Y-m-d')),
+    ['class'=>'form-control date-picker']) !!}
+</div>
+<!-- <div class="col-sm-3">
     <div class="form-group">
   <label for="fecha">Fecha</label>
   <input class="form-control" type="date" id="fecha" name="fecha" placeholder="Fecha">
 </div>
-</div>
+</div> -->
+
 </div>
 
 <div class="row wrap">
@@ -34,12 +50,32 @@
     <input class="form-control" type="text" id="stock" name="" placeholder="Stock actual" disabled>
 </div>
 </div>
+
 <div class="col-sm-6">
-    <div class="form-group">
-  <label for="descuento">Descuento</label>
-  <input class="form-control" type="number" id="descuento" name="descuento" placeholder="descuento">
+  <div class="form-group">
+<label for="precio_venta">Precio Venta</label>
+<input class="form-control" type="number" id="precio" name="precio" placeholder="Precio Venta" disabled>
 </div>
+
 </div>
+
+<div class="col-sm-6">
+  <div class="form-group">
+<label for="producto_descuento">Descuento</label>
+<input class="form-control" type="number" id="producto_descuento" name="producto_descuento" placeholder="Descuento" disabled>
+</div>
+
+</div>
+
+<div class="col-sm-6">
+  <div class="form-group">
+<label for="impuesto">Impuesto</label>
+<input class="form-control" type="number" id="impuesto" name="impuesto" placeholder="Impuesto" disabled>
+</div>
+
+</div>
+
+
 </div>
 
 <div class="row wrap">
@@ -49,18 +85,19 @@
     <input class="form-control" type="number" id="cantidad" name="cantidad" placeholder="Cantidad">
 </div>
 </div>
+
 <div class="col-sm-3">
-    <div class="form-group">
-  <label for="precio_venta">Precio Venta</label>
-  <input class="form-control" type="number" id="precio" name="precio" placeholder="Precio Venta" disabled>
+
+  <div class="form-group">
+    <label for="descuento">Descuento</label>
+    <select class="form-control" name="descuento" id="descuento">
+      <option value=0>Seleccione un tipo de descuento</option>
+      <option value=10>35% - Tercera Edad</option>
+      
+    </select>
+  </div>
 </div>
-</div>
-<div class="col-sm-3">
-    <div class="form-group">
-  <label for="impuesto">Impuesto</label>
-  <input class="form-control" type="number" id="impuesto" name ="impuesto" placeholder="15%">
-</div>
-</div>
+
 </div>
 
 <!-- Submit Field -->
@@ -114,3 +151,11 @@
 </table>
 </div>
 </div>
+
+@push('scripts')
+<script>
+$(document).ready(function() {
+    $('.js-example-basic-single').select2();
+});
+</script>
+@endpush

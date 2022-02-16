@@ -55,6 +55,13 @@
 
         </div>
 
+        <div class="form-group col-sm-12">
+            <?php echo Form::label('principio_activo', 'Principio Activo:'); ?>
+
+            <?php echo Form::text('principio_activo', null, ['class' => 'form-control']); ?>
+
+        </div>
+
         <!-- Proveedor Field -->
         <div class="form-group col-sm-12">
             <?php echo Form::label('proveedor', 'Proveedor:'); ?>
@@ -123,7 +130,7 @@ $(document).ready(function() {
 
 function eliminar(_id) {
   console.log(_id);
-if () {
+if (_id) {
 }else {
     Swal.fire({
         icon: 'error',

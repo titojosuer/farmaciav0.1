@@ -3,9 +3,9 @@
 @section('content')
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-            <a href="{!! route('ventas.index') !!}">Ventas</a>
+            <a href="{!! route('ventas.index') !!}">VENTAS</a>
       </li>
-      <li class="breadcrumb-item active">Registrar venta</li>
+      <li class="breadcrumb-item active">NUEVA VENTA</li>
     </ol>
      <div class="container-fluid">
           <div class="animated fadeIn">
@@ -15,7 +15,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <i class="fa fa-plus-square-o fa-lg"></i>
-                                <strong>Ventas</strong>
+                                <strong>VENTAS</strong>
                             </div>
                             {!! Form::open(['route' => 'ventas.store','method'=>'POST','autocomplete'=>'off'])!!}
 
@@ -54,25 +54,79 @@ $("#producto_id").change(mostrarValores);
 
 function mostrarValores(){
   datosProducto = document.getElementById('producto_id').value.split('_');
-  $('#precio').val(datosProducto[2]);
-  $('#stock').val(datosProducto[1]);
+  console.log(datosProducto);
+  $('#precio').val(datosProducto[1]);
+  $('#stock').val(datosProducto[2]);
+  $('#impuesto').val(datosProducto[3]);
+  $('#producto_descuento').val(datosProducto[4]);
 
 }
 
+var producto_id = $('#producto_id');
+
+ producto_id.change(function(){
+   $.ajax({
+     url:"{{route('get_productos_by_id')}}",
+     method:'GET',
+     data:{
+       producto_id:producto_id.val(),
+     },
+     success: function(data){
+       $("#precio").val(data.precio);
+       $("#stock").val(data.stock);
+       $("#codigo").val(data.codigo);
+       $("#producto_descuento").val(data.descuento);
+       $("#impuesto").val(data.impuesto);
+     }
+   });
+ });
+
+
+
+$(obtener_registro());
+function obtener_registro(codigo){
+  $.ajax({
+    url:"{{route('get_productos_by_barcode')}}",
+    type:'GET',
+    data: {
+      codigo: codigo
+    },
+    success:function(data){
+      $("#precio").val(data.precio);
+      $("#producto_descuento").val(data.descuento);
+      $("#impuesto").val(data.impuesto);
+      $("#stock").val(data.stock);
+    }
+  });
+}
+
+$(document).on('keyup','#codigo',function(){
+  var valorResultado = $(this).val();
+  if(valorResultado!=""){
+    obtener_registro(valorResultado);
+  }else{
+    obtener_registro(valorResultado);
+  }
+})
+
+
 function agregar() {
   datosProducto  = document.getElementById('producto_id').value.split('_');
-  producto_id = datosProducto[0];
+    producto_id = datosProducto[0];
     id_producto = $("#producto_id").val();
+    id_cliente = $("#cliente_id").val();
     producto = $("#producto_id option:selected").text();
     cantidad = $("#cantidad").val();
-    descuento = $("#descuento").val();
+    descuento = $("#producto_descuento").val();
+    descuento_total = $("#descuento").val();
     precio = $("#precio").val();
     stock = $("#stock").val();
     impuesto = $("#impuesto").val();
 
-    if (id_producto != "" && cantidad != "" && cantidad > 0 && descuento!= "" && precio != "") {
+    if (id_cliente != "" && id_producto != "" && cantidad != "" && cantidad > 0 && precio != "") {
       if(parseInt(stock)>=parseInt(cantidad)){
-        subtotal[cont] = (cantidad * precio)-(cantidad*precio*descuento/100);
+        console.log((descuento_total/100)+(descuento/100));
+        subtotal[cont] = (cantidad * precio)-(cantidad*precio*((descuento_total/100)+(descuento/100)));
         total = total + subtotal[cont];
         var fila = '<tr class="selected" id="fila' + cont + '"><td><button type="button" class="btn btn-danger btn-sm"  onclick="eliminar(' + cont + ');"><i class="fa fa-times fa-2x"></i></button></td><td><input type="hidden" name="producto_id[]" value="'+producto_id +'">' + producto + '</td><td><input type="hidden" name="precio[]" value="' +parseFloat(precio).toFixed(2) +'"><input class= "form-control" type="number" value="'+ parseFloat(precio).toFixed(2)+'" disabled></td><td><input type="hidden" name ="descuento[]" value="'+parseFloat(descuento)+'"><input class="form-control" type="number" value="'+ parseFloat(descuento) +'" disabled></td><td><input type="hidden" name ="cantidad[]" value="'+cantidad+'"><input class="form-control" type="number" value="'+ cantidad +'" disabled></td><td align="right">s/' + parseFloat(subtotal[cont]).toFixed(2) + '</td></tr>';
         cont++;
@@ -98,15 +152,18 @@ function agregar() {
 function limpiar(){
   $('#cantidad').val("");
   $('#precio').val("");
- $('#descuento').val("0");
+  $('#stock').val("");
+  $("#producto_descuento").val("");
+  $("#impuesto").val("");
+  $('#descuento').val("0");
 }
 
 function totales(){
-  $('#total').html("PEN" + total.toFixed(2));
+  $('#total').html("LPS" + total.toFixed(2));
   total_impuesto=total * impuesto/100;
   total_pagar = total + total_impuesto;
-  $('#total_impuesto').html("PEN" + total_impuesto.toFixed(2));
-    $('#total_pagar_html').html("PEN" + total_pagar.toFixed(2));
+  $('#total_impuesto').html("LPS" + total_impuesto.toFixed(2));
+    $('#total_pagar_html').html("LPS" + total_pagar.toFixed(2));
       $('#total_pagar').val(total_pagar.toFixed(2));
     }
 
@@ -123,9 +180,9 @@ function eliminar(index){
   total= total-subtotal[index];
   total_impuesto=total*impuesto/100;
   total_pagar_html = total + total_impuesto;
-  $('#total').html("PEN" + total);
-  $('#total_impuesto').html("PEN" + total_impuesto);
-  $('#total_pagar_html').html("PEN" + total_pagar_html);
+  $('#total').html("LPS" + total);
+  $('#total_impuesto').html("LPS" + total_impuesto);
+  $('#total_pagar_html').html("LPS" + total_pagar_html);
   $('#total_pagar').val(total_pagar_html.toFixed(2));
   $('#fila' + index).remove();
   evaluar();

@@ -31,7 +31,7 @@
     </div>
 
     <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".cd-example-modal-lg">Large modal</button>
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".cd-example-modal-lg">Large modal</button> -->
 
 <!-- Modal -->
 <div class="modal fade cd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -50,6 +50,11 @@
         <div class="form-group col-sm-12">
             {!! Form::label('nombre', 'Nombre:') !!}
             {!! Form::text('nombre', null, ['class' => 'form-control']) !!}
+        </div>
+
+        <div class="form-group col-sm-12">
+            {!! Form::label('principio_activo', 'Principio Activo:') !!}
+            {!! Form::text('principio_activo', null, ['class' => 'form-control']) !!}
         </div>
 
         <!-- Proveedor Field -->
@@ -94,9 +99,30 @@
 @endsection
 
 @push('scripts')
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" integrity="sha512-In/+MILhf6UMDJU4ZhDL0R0fEpsp4D3Le23m6+ujDWXwl3whwpucJG1PEmI3B07nyJx+875ccs+yX2CqQJUxUw==" crossorigin="anonymous" />
 <script>
   $('.dropify').dropify();
+</script>
+<script >
+$(document).ready(function() {
+    $("#eliminar").click(function() {
+        eliminar();
+    });
+});
+
+function eliminar(_id) {
+  console.log(_id);
+if (_id) {
+}else {
+    Swal.fire({
+        icon: 'error',
+        text: 'Rellene todos los campos del detalle compra',
+    })
+}
+}
+
+
 </script>
 @endpush

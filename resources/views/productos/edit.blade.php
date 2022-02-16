@@ -20,7 +20,7 @@
                           <div class="card-body">
                               {!! Form::model($productos,array('route' => array('productos.update',  $productos->id), 'files' => true, 'method' => 'PATCH'))!!}
 
-                              @include('productos.fields')
+                              @include('productos.fields_edit')
 
                               {!! Form::close() !!}
                             </div>

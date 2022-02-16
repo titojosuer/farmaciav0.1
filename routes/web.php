@@ -56,6 +56,8 @@ Route::group(['middleware' => 'auth'],function() {
 
 
   Route::get('delete/productos/{id}', 'App\Http\Controllers\productosController@delete')->name('productos.delete');
+  Route::get('delete/clientes/{id}', 'App\Http\Controllers\clientesController@delete')->name('clientes.delete');
+  Route::get('delete/proveedores/{id}', 'App\Http\Controllers\proveedoresController@delete')->name('proveedores.delete');
   Route::get('cambiar_estado/productos/{producto}','App\Http\Controllers\productosController@cambiar_estado')->name('cambiar.estado.producto');
   Route::get('cambiar_estado/pedidos/{pedido}','App\Http\Controllers\PedidoController@cambiar_estado')->name('cambiar.estado.pedido');
   Route::get('cambiar_estado/ventas/{venta}','App\Http\Controllers\VentaController@cambiar_estado')->name('cambiar.estado.venta');

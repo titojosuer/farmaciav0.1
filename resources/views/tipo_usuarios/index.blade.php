@@ -2,7 +2,7 @@
 
 @section('content')
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">Tipo Usuarios</li>
+        <li class="breadcrumb-item">USUARIOS</li>
     </ol>
     <div class="container-fluid">
         <div class="animated fadeIn">
@@ -12,13 +12,14 @@
                      <div class="card">
                          <div class="card-header">
                              <i class="fa fa-align-justify"></i>
-                             tipo_usuarios
-                             <a class="pull-right" href="{{ route('tipoUsuarios.create') }}"><i class="fa fa-plus-square fa-lg"></i></a>
+                             USUARIOS
+                             <!-- <a class="pull-right" href="{{ route('tipoUsuarios.create') }}"><i class="fa fa-plus-square fa-lg"></i></a> -->
+                            <a class="pull-right"  href="{{ route('tipoUsuarios.create') }}"><i class="btn btn-primary">AGREGAR USUARIO</i></a>
                          </div>
                          <div class="card-body">
                              @include('tipo_usuarios.table')
                               <div class="pull-right mr-3">
-                                     
+
                               </div>
                          </div>
                      </div>
@@ -27,4 +28,3 @@
          </div>
     </div>
 @endsection
-

@@ -15,7 +15,8 @@
                          <div class="card">
                              <div class="card-header">
                                  <strong>Detalles Venta</strong>
-                                  <a href="{{ route('ventas.index') }}" class="btn btn-light">Regresar</a>
+                                  <!-- <a href="{{ route('ventas.index') }}" class="btn btn-light">Regresar</a> -->
+                                  <a class="pull-right" href="{{ route('ventas.index') }}"><i class="btn btn-outline-dark"> <strong>REGRESAR</strong></i></a>
                              </div>
                              <div class="card-body">
                                  @include('ventas.show_fields')

@@ -2,7 +2,7 @@
 
 @section('content')
     <ol class="breadcrumb">
-        <li class="breadcrumb-item">Ventas</li>
+        <li class="breadcrumb-item">VENTAS</li>
     </ol>
     <div class="container-fluid">
         <div class="animated fadeIn">

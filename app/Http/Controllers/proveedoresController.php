@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateproveedoresRequest;
 use App\Http\Requests\UpdateproveedoresRequest;
+use App\Models\proveedores;
 use App\Repositories\proveedoresRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Input;
+use Yajra\DataTables\DataTables;
 use Flash;
 use Response;
 
@@ -30,10 +34,37 @@ class proveedoresController extends AppBaseController
     public function index(Request $request)
     {
         $proveedores = $this->proveedoresRepository->all();
+             
+        if ($request->ajax()) {
 
-        return view('proveedores.index')
-            ->with('proveedores', $proveedores);
+            $model = proveedores::all();
+    
+            return DataTables::of($model)
+            ->addIndexColumn()
+            ->addColumn('acciones',function (proveedores $proveedor){
+              return $this->getActionColumn($proveedor);
+            })
+            ->rawColumns(['acciones'])
+            ->make(true);
+    
+        }
+            return view('proveedores.index');
     }
+
+    protected function getActionColumn($proveedor): string
+    {
+        $showUrl = route('proveedores.show', $proveedor->id);
+        $editUrl = route('proveedores.edit', $proveedor->id);
+        $deleteUrl = route('proveedores.delete', $proveedor->id);
+        return "<a class='btn btn-ghost-info' data-value='$proveedor->id' href='$showUrl' ><i class='fa fa-eye text-primary'></i></a> 
+                        <a class='btn btn-ghost-success' data-value='$proveedor->id' href='$editUrl'><i class='fa fa-edit text-success'></i></a>
+                        <a data-toggle='modal' id='smallButton' data-target='#smallModal' data-attr='$deleteUrl' title='Eliminar Cliente'
+                        class='btn btn-ghost-secondary'><i class='fa fa-trash text-danger fa-lg'></i>
+                       </a>";
+    }
+        // return view('proveedores.index')
+        //     ->with('proveedores', $proveedores);
+    // }
 
     /**
      * Show the form for creating a new proveedores.
@@ -153,4 +184,10 @@ class proveedoresController extends AppBaseController
 
         return redirect(route('proveedores.index'));
     }
+
+    public function delete($id)
+    {
+    $proveedores = $this->proveedoresRepository->find($id);
+    return view('proveedores.delete', compact('proveedores'));
+  }
 }

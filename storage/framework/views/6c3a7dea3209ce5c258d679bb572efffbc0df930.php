@@ -26,6 +26,8 @@
     </div>
 <?php $__env->stopSection(); ?>
 
+
+
 <!-- small modal -->
 <div class="modal fade" id="smallModal" tabindex="-1" role="dialog" aria-labelledby="smallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
